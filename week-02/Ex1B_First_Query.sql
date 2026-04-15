@@ -1,0 +1,3 @@
+/*
+Sakila is a sample database simulating a real world business problem that is used for practice
+*/
