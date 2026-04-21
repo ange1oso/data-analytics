@@ -1,0 +1,13 @@
+-- #4b What is the name of the table that holds the items Northwind sells?
+-- "SELECT * FROM product" would be the script to find the items. The table is named 'products'
+-- #4c What is the name of the table that holds the types/categories of the items Northwind sells?
+-- "SELECT * FROM categories" would be the script used. The table is named 'categories'
+-- #5a Who is the Northwind employee whose name makes it look like she’s a bird?
+-- The employee who sounds like a bird is 'Margaret Peacock' found using "SELECT * FROM employees"
+-- #6a How many records does your query return? Using the toolbar options at the top of the query pane, how can you change your query to retrieve only 10 rows?
+-- "SELECT * FROM products" would be the scrip to find all columns in the products table. There are 77 records in the products table. You can limit the amount of records by changing it from 'no limit' to 'limit to 10 rows'
+-- #6a bonus: "SELECT * FROM products LIMIT 10" to limit the query results.
+-- #7a What is the category id of seafood?
+-- The categoryID is 8. I found it by using "SELECT * FROM categories" as my script.
+-- #8 Create a SELECT statement to retrieve top 50 records from orders, including OrderID,OrderDate,ShipName,ShipCountry columns. 
+-- "SELECT OrderID, OrderDate, ShipName, ShipCountry FROM orders LIMIT 50" would be the scrip to retrieve the top 50 records. 
