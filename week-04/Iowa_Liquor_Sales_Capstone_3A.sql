@@ -218,14 +218,13 @@ ORDER BY s.total::numeric DESC;
 -- 186,259 total transactions with state bottle cost of $10-$20
 -- Aggregates total transactions lists from last prompt
 SELECT
-    s.description                       AS product_name,
-    s.category_name,
+    s.description AS product_name, s.category_name,
     ROUND(MIN(s.state_btl_cost::numeric), 2)  AS min_btl_cost,
     ROUND(MAX(s.state_btl_cost::numeric), 2)  AS max_btl_cost,
     ROUND(AVG(s.state_btl_cost::numeric), 2)  AS avg_btl_cost,
-    COUNT(*)                            AS total_transactions,
-    SUM(s.bottle_qty)                   AS total_bottles_sold,
-    SUM(s.total::money)                 AS total_revenue,
+    COUNT(*) AS total_transactions,
+    SUM(s.bottle_qty) AS total_bottles_sold,
+    SUM(s.total::money) AS total_revenue,
     ROUND(AVG(s.btl_price::numeric), 2) AS avg_bottle_price
 FROM sales AS s
 WHERE s.vendor LIKE '%Diageo%'
@@ -253,23 +252,8 @@ ORDER BY total_revenue DESC;
 -- #12 For each sale in your [Category], display the transaction date, total amount,
 -- and the population of the county where the sale occurred by joining with counties_table.
 -- (Opportunity: Correlating sales volume with population density).
-SELECT s.date, SUM(s.total::money) AS total_revenue, c.population, c.county
-FROM sales AS s
-JOIN counties AS c ON s.county = c.county
-WHERE s.vendor LIKE '%Diageo%'
-  AND s.date BETWEEN '2014-01-01' AND '2014-12-31'
-GROUP BY s.date, c.population, c.county
-ORDER BY total_revenue DESC
--- My try at the query^
-SELECT
-    s.date,
-    s.store,
-    s.county,
-    c.population,
-    s.description                       AS product_name,
-    s.bottle_qty,
-    s.btl_price,
-    s.total::money                      AS total_revenue
+SELECT s.date, s.store, s.county, c.population, s.description AS product_name,
+    s.bottle_qty, s.btl_price, s.total::money AS total_revenue
 FROM sales AS s
 JOIN counties AS c ON s.county = c.county
 WHERE s.category = '1062310'
@@ -279,17 +263,11 @@ ORDER BY s.total::numeric DESC;
 -- 146,879 total transactions in Spiced Rum category. biggest transaction was $64,800 in total revenue 
 -- for the county Dallas with a poulation of 66,135 and 2,400 bottles sold at $27 per.
 -- Revenue per capita:
-SELECT
-    s.county,
-    c.population,
-    COUNT(*)                            AS total_transactions,
-    SUM(s.bottle_qty)                   AS total_bottles_sold,
-    SUM(s.total::money)                 AS total_revenue,
+SELECT s.county, c.population, COUNT(*) AS total_transactions,
+    SUM(s.bottle_qty) AS total_bottles_sold,
+    SUM(s.total::money) AS total_revenue,
     ROUND(AVG(s.btl_price::numeric), 2) AS avg_bottle_price,
-    ROUND(
-        SUM(s.total::numeric) / 
-        NULLIF(c.population::numeric, 0)
-    , 2)                                AS revenue_per_capita
+    ROUND(SUM(s.total::numeric) / NULLIF(c.population::numeric, 0), 2) AS revenue_per_capita
 FROM sales AS s
 JOIN counties AS c ON s.county = c.county
 WHERE s.category = '1062310'
@@ -304,8 +282,7 @@ ORDER BY total_revenue DESC;
 -- with a 430,640 population 
 
 -- My bonus Q: Best performing counties in Iowa for Diageo in 2014
-SELECT s.county, s.county_number,
-    COUNT(*) AS total_transactions,
+SELECT s.county, s.county_number, COUNT(*) AS total_transactions,
     SUM(s.bottle_qty) AS total_bottles_sold,
     SUM(s.total::money) AS total_revenue
 FROM sales AS s
